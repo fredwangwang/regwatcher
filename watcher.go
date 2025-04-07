@@ -5,8 +5,9 @@ package regwatcher
 import (
 	"errors"
 	"fmt"
-	"golang.org/x/sys/windows"
 	"syscall"
+
+	"golang.org/x/sys/windows"
 )
 
 const (
@@ -63,7 +64,7 @@ func (w *Watcher) Watch() (bool, error) {
 	if err != nil {
 		return false, fmt.Errorf("RegNotifyChangeKeyValue failed:%v", err.Error())
 	}
-	dwEvent, err := windows.WaitForSingleObject(w.hEvent, windows.INFINITE)
+	dwEvent, err := windows.WaitForSingleObject(w.hEvent, uint32(w.timeout))
 	if err != nil {
 		return false, err
 	}
